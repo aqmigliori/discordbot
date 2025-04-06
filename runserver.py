@@ -5,13 +5,14 @@
 # additional functions
 import discord
 import requests
+import time
 
-DISCORD_TOKEN = 'MTM1Nzk4NDQ2MzU5MzY3MjgwNQ.GHU8_T.N5aMXa1sDUUmI3sczlBw_Tb04cduwL56s7h5js'
+DISCORD_TOKEN = 'MTM1Nzk4NDQ2MzU5MzY3MjgwNQ.GzGofw.QvGHVfNeHMrZ8CdPnfApc2m1JBJz0euAemVmD8'
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-serverOnline = False
+serverOnline = null
 
 
 def start():
@@ -32,6 +33,12 @@ def stop():
     return "Server already stopped"
 
 
+def get_ip():
+    global serverOnline
+    r = requests.get('https://u7qhfk7zg0.execute-api.us-west-1.amazonaws.com/getIP')
+    return str(r.json()['ip'])
+
+
 class Client(discord.Client):
     async def on_ready(self):  # will run whenever bot is connected to server successfully
         print(f'Logged on as {self.user}')
@@ -42,10 +49,18 @@ class Client(discord.Client):
 
         if message.content.startswith('$start'):
             await message.channel.send('Status: ' + start())
+            time.sleep(10)
+            await message.channel.send('IP: ' + get_ip())
+
         elif message.content.startswith('$stop'):
             await message.channel.send('Status: ' + stop())
+
+        elif message.content.startswith('$ip'):
+            await message.channel.send('IP: ' + get_ip())
         # print(f'Message from {message.author}: {message.content}')
 
+# def status
+# def players_online
 
 client = Client(intents=intents)
 client.run(DISCORD_TOKEN)
