@@ -12,7 +12,7 @@ DISCORD_TOKEN = 'MTM1Nzk4NDQ2MzU5MzY3MjgwNQ.GzGofw.QvGHVfNeHMrZ8CdPnfApc2m1JBJz0
 intents = discord.Intents.default()
 intents.message_content = True
 
-serverOnline = null
+serverOnline = False
 
 
 def start():
