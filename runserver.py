@@ -4,15 +4,32 @@
 # If the time elapsed goes over time limit, stop the server automatically
 # additional functions
 import discord
-from discord.ext import commands
+import requests
 
 DISCORD_TOKEN = 'MTM1Nzk4NDQ2MzU5MzY3MjgwNQ.GHU8_T.N5aMXa1sDUUmI3sczlBw_Tb04cduwL56s7h5js'
 
 intents = discord.Intents.default()
 intents.message_content = True
 
+serverOnline = False
 
-# bot = commands.Bot(command_prefix='$', intents=intents)
+
+def start():
+    global serverOnline
+    requests.get('https://g7wp4wsopf.execute-api.us-west-1.amazonaws.com/start')
+    if not serverOnline:
+        serverOnline = True
+        return "Starting server..."
+    return "Server already started"
+
+
+def stop():
+    global serverOnline
+    requests.get('https://2qfh7sff55.execute-api.us-west-1.amazonaws.com/stop')
+    if serverOnline:
+        serverOnline = False
+        return "Stopping server..."
+    return "Server already stopped"
 
 
 class Client(discord.Client):
@@ -23,17 +40,12 @@ class Client(discord.Client):
         if message.author == client.user:
             return
 
-        if message.content.startswith('hello'):
-            await message.channel.send('Hello, ' + str(message.author))
-        print(f'Message from {message.author}: {message.content}')
+        if message.content.startswith('$start'):
+            await message.channel.send('Status: ' + start())
+        elif message.content.startswith('$stop'):
+            await message.channel.send('Status: ' + stop())
+        # print(f'Message from {message.author}: {message.content}')
 
-
-# @bot.command()
-# async def test(ctx):
-#     pass
-#
-#
-# bot.add_command(test)
 
 client = Client(intents=intents)
 client.run(DISCORD_TOKEN)
