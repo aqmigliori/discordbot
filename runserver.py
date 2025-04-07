@@ -16,12 +16,15 @@ serverOnline = False
 
 
 def start():
-    global serverOnline
-    requests.get('https://g7wp4wsopf.execute-api.us-west-1.amazonaws.com/start')
-    if not serverOnline:
-        serverOnline = True
-        return "Starting server..."
-    return "Server already started"
+    if str(get_ip())!="None":
+        return "cooldown"
+    else:
+        global serverOnline
+        requests.get('https://g7wp4wsopf.execute-api.us-west-1.amazonaws.com/start')
+        if not serverOnline:
+            serverOnline = True
+            return "Starting server..."
+        return "Server already started"
 
 
 def stop():
