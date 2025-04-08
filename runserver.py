@@ -7,7 +7,7 @@ import discord
 import requests
 import time
 
-DISCORD_TOKEN = 'MTM1Nzk4NDQ2MzU5MzY3MjgwNQ.GzGofw.QvGHVfNeHMrZ8CdPnfApc2m1JBJz0euAemVmD8'
+DISCORD_TOKEN = 'MTM1Nzk4NDQ2MzU5MzY3MjgwNQ.GzGofw.QvGHVfNeHMrZ8CdPnfApc2m1JBJz0euAemVmD'
 
 intents = discord.Intents.default()
 intents.message_content = True
